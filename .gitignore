@@ -1,0 +1,82 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+.eggs/
+dist/
+build/
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# uv
+.uv/
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.hypothesis/
+
+# Type checkers
+.mypy_cache/
+.dmypy.json
+.pyre/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Project-specific ---
+
+# API keys / secrets
+settings.py
+.env
+
+# Pickle / data files (experiment outputs)
+*.pkl
+*.pickle
+
+# Generated figures (but not committed assets)
+*.png
+*.jpg
+*.jpeg
+*.xcf
+!assets/**/*.png
+!assets/**/*.jpg
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+
+# Vector DB
+.chroma/
+
+# Generated output directories
+output/
+video/
