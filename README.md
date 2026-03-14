@@ -47,8 +47,12 @@ src/maslow/
 │   ├── respect.py      # Exp 4: LM-based respect (user autonomy)
 │   ├── attachment.py   # Exp 5: ASQ scoring + attachment dating simulation
 │   └── knowledge.py    # Exp 6: self-awareness dynamics
-└── utils/
-    └── stats.py        # logprob_to_prob, prob_for_label, run_ttest
+├── utils/
+│   └── stats.py        # logprob_to_prob, prob_for_label, run_ttest
+└── visualizer.py       # Shared pygame infrastructure (Tileset, Tilemap, Game)
+
+assets/
+└── icons/              # PNG tile icons used by the pygame visualizer
 ```
 
 ---
@@ -70,6 +74,64 @@ Each cell has:
 - **Nutrition**: how much need is satisfied per step
 
 **Adversarial cells** (superstimuli) are high-salience but low-nutrition — the agent is drawn to them but they don't genuinely satisfy needs.
+
+---
+
+## Live Visualizer
+
+Both gridworlds can be rendered interactively with pygame. No API key is needed.
+
+### Base gridworld
+
+```bash
+# Default: GA needs-optimised adversarial environment
+uv run python scripts/render_gridworld.py
+
+# Supportive baseline
+uv run python scripts/render_gridworld.py --preset plain
+
+# GA engagement-optimised environment, record frames to video/
+uv run python scripts/render_gridworld.py --preset engagement --record
+```
+
+| Flag | Description |
+|------|-------------|
+| `--preset` | `needs` (default), `engagement`, or `plain` |
+| `--setup` | `supportive` or `adversarial` (overrides preset) |
+| `--size N` | Grid size (default 8) |
+| `--record` | Save each frame to `video/screen_NNNN.png` |
+| `--delay S` | Seconds between frames (default 0.1) |
+
+### Attachment gridworld
+
+```bash
+# Anxious agent, no app
+uv run python scripts/render_attachment.py --attachment anxious
+
+# Avoidant agent with relationship app log
+uv run python scripts/render_attachment.py --attachment avoidant \
+    --app-log attachment_results.pkl
+
+# Record frames
+uv run python scripts/render_attachment.py --attachment anxious --record
+```
+
+| Flag | Description |
+|------|-------------|
+| `--attachment` | `anxious` (default), `avoidant`, or `secure` |
+| `--size N` | Grid size (default 5) |
+| `--app-log FILE` | Path to `attachment_results.pkl` to enable the relationship app |
+| `--log-index N` | Which rep to use from the pkl (default 4) |
+| `--no-seed` | Disable pre-seeding agent memory with belonging locations |
+| `--record` | Save each frame to `video/screen_NNNN.png` |
+| `--delay S` | Seconds between frames (default 0.05) |
+
+The attachment HUD shows need bars, memory indicators, a **self-awareness bar** (grows as the agent completes relationship cycles), and a **cycle phase bar**.
+
+To convert recorded frames to a video:
+```bash
+ffmpeg -r 10 -i video/screen_%04d.png -vcodec libx264 -pix_fmt yuv420p out.mp4
+```
 
 ---
 
